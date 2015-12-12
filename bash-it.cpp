@@ -1,4 +1,5 @@
-#include <game-kit/game.h>
+#include <game.h>
+#include <menu_helper.h>
 
 int main()
 {
@@ -20,5 +21,4 @@ dynamic_menu* soundpackMenu = create_menu(soundpackList, soundpackList->size(), 
 soundpackMenu->set_display(disp);
 int r = soundpackMenu->run_extended("", "", 1, true);
 }
-end_game();
 }
