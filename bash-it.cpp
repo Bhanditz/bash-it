@@ -9,11 +9,14 @@ using std::vector;
 int main()
 {
 ALLEGRO_DISPLAY* disp = game_window("Bash It!");
+int r;
+while (r != 3)
+{
 // Generate the main menu.
-string options[] = {"play","exit"};
+string options[] = {"play","credits","exit"};
 dynamic_menu* mainMenu = create_menu(options, 2, NULL, 0);
 mainMenu->set_display(disp);
-int r = mainMenu->run_extended("", "", 1, true);
+r = mainMenu->run_extended("", "", 1, true);
 if (r == 1)
 {
 vector<string>* soundpackList = get_dir_children("sounds", 2);
@@ -26,5 +29,10 @@ array[soundpackList->size()] = "Back to main menu.";
 dynamic_menu* soundpackMenu = create_menu(array, soundpackList->size()+1, NULL, 0);
 soundpackMenu->set_display(disp);
 r = soundpackMenu->run_extended("", "", 1, true);
+}
+if (r == 2)
+{
+credits(disp, "Bash It");
+}
 }
 }
