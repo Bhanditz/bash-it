@@ -14,7 +14,7 @@ while (r != 3)
 {
 // Generate the main menu.
 string options[] = {"play","credits","exit"};
-dynamic_menu* mainMenu = create_menu(options, 2, NULL, 0);
+dynamic_menu* mainMenu = create_menu(options, sizeof(options), NULL, 0);
 mainMenu->set_display(disp);
 r = mainMenu->run_extended("", "", 1, true);
 if (r == 1)
