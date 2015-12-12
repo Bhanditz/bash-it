@@ -10,7 +10,15 @@ mainMenu->set_display(disp);
 int r = mainMenu->run_extended("", "", 1, true);
 if (r == 1)
 {
-
+vector<string>* soundpackList = function();
+string array[soundpackList->size()];
+for (int x = 0; x < soundpackList->size(); x++)
+{
+array[x] = (*soundpackList)[x];
+}
+dynamic_menu* soundpackMenu = create_menu(soundpackList, soundpackList->size(), NULL, 0);
+soundpackMenu->set_display(disp);
+int r = soundpackMenu->run_extended("", "", 1, true);
 }
 end_game();
 }
