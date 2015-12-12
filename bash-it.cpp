@@ -12,9 +12,5 @@ if (r == 1)
 {
 
 }
-delete mainMenu;
-al_uninstall_audio();
-al_uninstall_keyboard();
-al_destroy_display(disp);
-al_uninstall_system();
+end_game();
 }
