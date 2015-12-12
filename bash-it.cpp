@@ -1,14 +1,8 @@
-#include <dynamic_menu.h>
-#include <menu_helper.h>
-
+#include <game-kit/game.h>
 
 int main()
 {
-al_init();
-al_install_audio();
-al_install_keyboard();
-al_init_acodec_addon();
-ALLEGRO_DISPLAY* disp = al_create_display(640,480);
+game-window("Bash It!")
 // Generate the main menu.
 string options[] = {"play","exit"};
 dynamic_menu* mainMenu = create_menu(options, 2, NULL, 0);
