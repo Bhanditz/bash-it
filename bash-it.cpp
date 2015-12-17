@@ -8,7 +8,11 @@ using std::vector;
 #include <iostream>
 #include <fstream>
 using std::ifstream;
+#include <uiohook.h>
+
 void play(string pack, int info[5]);
+void do_dispatch_dumby(uiohook_event* event);
+
 
 int main()
 {
@@ -22,6 +26,12 @@ vector<string>* soundpackList = get_dir_children("sounds", 2);
 soundpackList->push_back("Back to main menu.");
 dynamic_menu* soundpackMenu = create_menu(*soundpackList, vector<string>());
 soundpackMenu->set_display(disp);
+hook_set_dispatch_proc(do_dispatch_dumby);
+if(hook_run() != UIOHOOK_SUCCESS) {
+log("Could not install the hook!\n");
+end_game(disp);
+return 1;
+}
 while (r != 3)
 {
 r = mainMenu->run_extended("", "", 1, true);
@@ -68,5 +78,8 @@ delete mainMenu;
 delete soundpackMenu;
 delete soundpackList;
 end_game(disp);
+}
+
+void do_dispatch_dumby(uiohook_event* event) {
 }
 
