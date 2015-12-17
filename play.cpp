@@ -101,7 +101,7 @@ sr.speak_any(s.str());
 done = true;
 }
 if(score%2 == 0) {
-time -+ 0.1;
+time -= 0.1;
 if(time < 0.25) {
 time = 0.25;
 }
