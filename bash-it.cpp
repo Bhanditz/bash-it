@@ -8,10 +8,12 @@ using std::vector;
 #include <iostream>
 #include <fstream>
 using std::ifstream;
+#ifdef _WIN32
 #include <uiohook.h>
+void do_dispatch_dumby(uiohook_event* event);
+#endif
 
 void play(string pack, int info[5]);
-void do_dispatch_dumby(uiohook_event* event);
 
 
 int main()
@@ -26,12 +28,14 @@ vector<string>* soundpackList = get_dir_children("sounds", 2);
 soundpackList->push_back("Back to main menu.");
 dynamic_menu* soundpackMenu = create_menu(*soundpackList, vector<string>());
 soundpackMenu->set_display(disp);
-hook_set_dispatch_proc(do_dispatch_dumby);
+#ifdef _WIN32
+hook_set_dispatch_proc(&do_dispatch_dumby);
 if(hook_run() != UIOHOOK_SUCCESS) {
 log("Could not install the hook!\n");
 end_game(disp);
 return 1;
 }
+#endif
 while (r != 3)
 {
 r = mainMenu->run_extended("", "", 1, true);
@@ -80,6 +84,7 @@ delete soundpackList;
 end_game(disp);
 }
 
+#ifdef _WIN32
 void do_dispatch_dumby(uiohook_event* event) {
 }
-
+#endif
