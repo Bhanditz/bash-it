@@ -11,7 +11,7 @@ int test(dynamic_menu* m, int pos, void* test);
 int main()
 {
 ALLEGRO_DISPLAY* disp = game_window("Bash It!");
-int r;
+int r = 0;
 // Generate the main menu.
 string options[] = {"play","credits","exit"};
 vector<f> vec(0);
@@ -42,7 +42,11 @@ credits(disp, "Bash It");
 delete mainMenu;
 delete soundpackMenu;
 delete soundpackList;
-end_game(disp);
+al_uninstall_audio();
+al_uninstall_keyboard();
+al_destroy_display(disp);
+al_uninstall_system();
+//end_game(disp);
 }
 
 int test(dynamic_menu* m, int pos, void* test) {
