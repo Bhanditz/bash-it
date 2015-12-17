@@ -5,8 +5,10 @@
 #include <allegro5/allegro.h>
 using std::string;
 using std::vector;
-
-int test(dynamic_menu* m, int pos, void* test);
+#include <iostream>
+#include <fstream>
+using std::ifstream;
+void play(string pack, int info[5]);
 
 int main()
 {
@@ -14,13 +16,6 @@ ALLEGRO_DISPLAY* disp = game_window("Bash It!");
 int r = 0;
 // Generate the main menu.
 string options[] = {"play","credits","exit"};
-vector<f> vec(0);
-vec.resize(2, NULL);
-vec[1] = &test;
-vector<void*> vec2(0);
-vec2.resize(2, NULL);
-string test2 = "test";
-vec2[1] = &test2;
 dynamic_menu* mainMenu = create_menu(vector<string>(options, options+3), vector<string>()/*, vec, vec2*/);
 mainMenu->set_display(disp);
 vector<string>* soundpackList = get_dir_children("sounds", 2);
@@ -33,6 +28,36 @@ r = mainMenu->run_extended("", "", 1, true);
 if (r == 1)
 {
 int r2 = soundpackMenu->run_extended("", "", 1, true);
+string pack = (*soundpackList)[r2-1];
+ifstream f;
+f.open(((string)("sounds/")+pack+"/info.dat").c_str());
+int info[5];
+string s;
+do {
+getline(f, s);
+string s2="";
+for(int x =1; x<s.size(); x++) {
+s2 += s[x];
+}
+switch(s[0]) {
+case 'c':
+info[0] = atoi(s2.c_str());
+break;
+case 'i':
+info[1] = atoi(s2.c_str());
+break;
+case 'l':
+info[2] = atoi(s2.c_str());
+break;
+case 'p':
+info[3] = atoi(s2.c_str());
+break;
+case 'r':
+info[4] = atoi(s2.c_str());
+break;
+}
+} while(s != "");
+play(pack, info);
 }
 if (r == 2)
 {
@@ -42,19 +67,6 @@ credits(disp, "Bash It");
 delete mainMenu;
 delete soundpackMenu;
 delete soundpackList;
-al_uninstall_audio();
-al_uninstall_keyboard();
-al_destroy_display(disp);
-al_uninstall_system();
-//end_game(disp);
-}
-
-int test(dynamic_menu* m, int pos, void* test) {
-if(test) {
-screen_reader sr;
-sr.speak_any(*((string*)(test)));
-return 1;
-}
-return 0;
+end_game(disp);
 }
 
