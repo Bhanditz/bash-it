@@ -1,0 +1,8 @@
+Bash It
+Brought to you by 2MB Solutions: https://2mb.solutions
+Billy Wolfe: https://stormdragon.tk
+Design, sounds, coding, and documentation.
+Michael Taboada: https://michaeltaboada.me
+Primary coder and sounds.
+2MB would like to say thank you to all the beta testers who helped make this game possible.
+Visit https://2mb.solutions/games/bashit for details.

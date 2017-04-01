@@ -80,8 +80,8 @@ reward.load(s.str());
 else {
 reward.load((string)("sounds/reward.ogg"));
 }
-reward.set_pan(cpu.get_pan());
-play_sound_wait(&reward);
+player.set_pan(cpu.get_pan());
+play_sound_wait(&player);
 score++;
 }
 else {
