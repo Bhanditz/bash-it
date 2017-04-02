@@ -9,6 +9,7 @@ void play(string pack) {
 string sounddir = (string)("sounds/")+pack+"/";
 vector<string>* vec = get_dir_children(sounddir, 2);
 int info[5];
+if (vec) {
 for (int x = 0; x < 5; x++) {
 info[x] = 0;
 }
@@ -29,6 +30,12 @@ else if((*vec)[x].find("reward") != string::npos) {
 info[4]++;
 }
 }
+delete vec;
+}
+else {
+log((string)("Could not get list of files in ")+sounddir+"!\n");
+return;
+}
 sound cpu;
 sound player;
 sound bgm;
@@ -40,8 +47,8 @@ s << "sounds/intro.opus";
 }
 else {
 s << sounddir << "intro" << rand()%info[1] << ".opus";
-play_sound_wait(s.str());
 }
+play_sound_wait(s.str());
 for(int x = 0; x<info[0]; x++) {
 s.str("");
 s << sounddir << "cpu" << x << ".opus";
@@ -94,17 +101,25 @@ break;
 }
 }
 if(dir == pressed) {
-if(info[4] > 0) {
+if(info[3] > 0) {
+s.str("");
+s << sounddir << "player" << rand()%info[4] << ".opus";
+player.load(s.str());
+}
+player.set_pan(cpu.get_pan());
+play_sound_wait(&player);
+score++;
+if (score%15 == 0) {
+if (info[4] > 0) {
 s.str("");
 s << sounddir << "reward" << rand()%info[4] << ".opus";
 reward.load(s.str());
 }
 else {
-reward.load((string)("sounds/reward.opus"));
+reward.load("sounds/reward.opus");
 }
-player.set_pan(cpu.get_pan());
-play_sound_wait(&player);
-score++;
+play_sound_wait(&reward);
+}
 }
 else {
 if(info[2] > 0) {
