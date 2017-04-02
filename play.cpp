@@ -1,11 +1,6 @@
-#include <misc.h>
-#include <menu_helper.h>
-#include <soundplayer.h>
-#include <sstream>
+#include <include.h>
 using std::stringstream;
-#include <string>
 using std::string;
-#include <vector>
 using std::vector;
 
 void play(string pack) {
