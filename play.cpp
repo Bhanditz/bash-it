@@ -48,8 +48,9 @@ sound bgm;
 sound lose;
 sound reward;
 stringstream s;
-if(info[1] <= 0) {
-s << "sounds/intro.opus";
+if (info[1] > 0) {
+s.str("");
+s << sounddir << "intro" << rand()%info[1] << ".opus";
 play_sound_wait(s.str());
 }
 for(int x = 0; x<info[0]; x++) {
