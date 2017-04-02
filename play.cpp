@@ -132,6 +132,7 @@ play_sound_wait(&reward);
 }
 }
 else {
+bgm.stop();
 if(info[2] > 0) {
 s.str("");
 s << sounddir << "lose" << rand()%info[2] << ".opus";
