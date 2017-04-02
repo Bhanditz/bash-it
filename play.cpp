@@ -48,6 +48,16 @@ s.str("");
 s << sounddir << "intro" << rand()%info[1] << ".opus";
 play_sound_wait(s.str());
 }
+else {
+screen_reader sr;
+sr.speak_any("3");
+al_rest(0.5);
+sr.speak_any("2");
+al_rest(0.5);
+sr.speak_any("1");
+al_rest(0.5);
+sr.speak_any("go!");
+}
 for(int x = 0; x<info[0]; x++) {
 s.str("");
 s << sounddir << "cpu" << x << ".opus";
@@ -95,15 +105,15 @@ int pressed = -10000;
 int x;
 for(x = 0; x < time/0.005; x++) {
 al_rest(0.005);
-if(kb.key_pressed(ALLEGRO_KEY_LEFT)) {
+if(kb.key_pressed(ALLEGRO_KEY_LEFT) || kb.key_pressed(ALLEGRO_KEY_J)) {
 pressed = -1;
 break;
 }
-else if(kb.key_pressed(ALLEGRO_KEY_RIGHT)) {
+else if(kb.key_pressed(ALLEGRO_KEY_RIGHT) || kb.key_pressed(ALLEGRO_KEY_L)) {
 pressed = 1;
 break;
 }
-else if((kb.key_pressed(ALLEGRO_KEY_DOWN) || kb.key_pressed(ALLEGRO_KEY_UP))) {
+else if((kb.key_pressed(ALLEGRO_KEY_DOWN) || kb.key_pressed(ALLEGRO_KEY_UP) || kb.key_pressed(ALLEGRO_KEY_K) || kb.key_pressed(ALLEGRO_KEY_I))) {
 pressed = 0;
 break;
 }
