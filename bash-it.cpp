@@ -8,12 +8,8 @@ using std::vector;
 #include <iostream>
 #include <fstream>
 using std::ifstream;
-#ifdef _WIN32
-#include <uiohook.h>
-void do_dispatch_dumby(uiohook_event* event);
-#endif
 
-void play(string pack, int info[5]);
+void play(string pack);
 
 
 int main()
@@ -28,14 +24,6 @@ vector<string>* soundpackList = get_dir_children("sounds", 2);
 soundpackList->push_back("Back to main menu.");
 dynamic_menu* soundpackMenu = create_menu(*soundpackList, vector<string>());
 soundpackMenu->set_display(disp);
-#ifdef _WIN32
-hook_set_dispatch_proc(&do_dispatch_dumby);
-if(hook_run() != UIOHOOK_SUCCESS) {
-log("Could not install the hook!\n");
-end_game(disp);
-return 1;
-}
-#endif
 while (r != 3)
 {
 r = mainMenu->run_extended("", "", 1, true);
@@ -43,35 +31,7 @@ if (r == 1)
 {
 int r2 = soundpackMenu->run_extended("", "", 1, true);
 string pack = (*soundpackList)[r2-1];
-ifstream f;
-f.open(((string)("sounds/")+pack+"/info.dat").c_str());
-int info[5];
-string s;
-do {
-getline(f, s);
-string s2="";
-for(int x =1; x<s.size(); x++) {
-s2 += s[x];
-}
-switch(s[0]) {
-case 'c':
-info[0] = atoi(s2.c_str());
-break;
-case 'i':
-info[1] = atoi(s2.c_str());
-break;
-case 'l':
-info[2] = atoi(s2.c_str());
-break;
-case 'p':
-info[3] = atoi(s2.c_str());
-break;
-case 'r':
-info[4] = atoi(s2.c_str());
-break;
-}
-} while(s != "");
-play(pack, info);
+play(pack);
 }
 if (r == 2)
 {
@@ -83,8 +43,3 @@ delete soundpackMenu;
 delete soundpackList;
 end_game(disp);
 }
-
-#ifdef _WIN32
-void do_dispatch_dumby(uiohook_event* event) {
-}
-#endif
