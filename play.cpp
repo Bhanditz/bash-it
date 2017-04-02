@@ -5,8 +5,30 @@ using std::stringstream;
 #include <string>
 using std::string;
 
-void play(string pack, int info[5]) {
+void play(string pack) {
 string sounddir = (string)("sounds/")+pack+"/";
+vector<string>* vec = get_dir_children(sounddir, 2);
+int info[5];
+for (int x = 0; x < 5; x++) {
+info[x] = 0;
+}
+for (int x = 0; x < vec->size(); x++) {
+if ((*vec)[x].find("intro") != string::npos) {
+info[1]++;
+}
+else if((*vec)[x].find("cpu") != string::npos) {
+info[0]++;
+}
+else if((*vec)[x].find("lose") != string::npos) {
+info[2]++;
+}
+else if((*vec)[x].find("player"+ != string::npos() {
+info[3]++;
+}
+else if((*vec)[x].find("reward") != string::npos) {
+info[4]++;
+}
+}
 sound cpu;
 sound player;
 sound bgm;
@@ -14,33 +36,33 @@ sound lose;
 sound reward;
 stringstream s;
 if(info[1] <= 0) {
-s << "sounds/intro.ogg";
+s << "sounds/intro.opus";
 }
 else {
-s << sounddir << "intro" << rand()%info[1] << ".ogg";
+s << sounddir << "intro" << rand()%info[1] << ".opus";
 play_sound_wait(s.str());
 }
 for(int x = 0; x<info[0]; x++) {
 s.str("");
-s << sounddir << "cpu" << x << ".ogg";
+s << sounddir << "cpu" << x << ".opus";
 cpu.load(s.str());
 }
 for(int x = 0; x<info[2]; x++) {
 s.str("");
-s << sounddir << "lose" << x << ".ogg";
+s << sounddir << "lose" << x << ".opus";
 cpu.load(s.str());
 }
 for(int x = 0; x<info[3]; x++) {
 s.str("");
-s << sounddir << "player" << x << ".ogg";
+s << sounddir << "player" << x << ".opus";
 cpu.load(s.str());
 }
 for(int x = 0; x<info[4]; x++) {
 s.str("");
-s << sounddir << "reward" << x << ".ogg";
+s << sounddir << "reward" << x << ".opus";
 cpu.load(s.str());
 }
-bgm.load(sounddir+"bgm.ogg");
+bgm.load(sounddir+"bgm.opus");
 bgm.set_loop(true);
 bgm.play();
 bool done = false;
@@ -49,7 +71,7 @@ int score = 0;
 do {
 int dir = rand()%3-1;
 s.str("");
-s << sounddir << "cpu" << rand()%info[0] << ".ogg";
+s << sounddir << "cpu" << rand()%info[0] << ".opus";
 cpu.load(s.str());
 cpu.set_pan(50*dir);
 cpu.play();
@@ -74,11 +96,11 @@ break;
 if(dir == pressed) {
 if(info[4] > 0) {
 s.str("");
-s << sounddir << "reward" << rand()%info[4] << ".ogg";
+s << sounddir << "reward" << rand()%info[4] << ".opus";
 reward.load(s.str());
 }
 else {
-reward.load((string)("sounds/reward.ogg"));
+reward.load((string)("sounds/reward.opus"));
 }
 player.set_pan(cpu.get_pan());
 play_sound_wait(&player);
@@ -87,11 +109,11 @@ score++;
 else {
 if(info[2] > 0) {
 s.str("");
-s << sounddir << "lose" << rand()%info[2] << ".ogg";
+s << sounddir << "lose" << rand()%info[2] << ".opus";
 lose.load(s.str());
 }
 else {
-lose.load((string)("sounds/lose.ogg"));
+lose.load((string)("sounds/lose.opus"));
 }
 play_sound_wait(&lose);
 screen_reader sr;
