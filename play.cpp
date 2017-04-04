@@ -42,6 +42,7 @@ sound player;
 sound bgm;
 sound lose;
 sound reward;
+stringstream bragScore;
 stringstream s;
 if (info[1] > 0) {
 s.str("");
@@ -85,9 +86,14 @@ bgm.load(s.str());
 bgm.set_loop(true);
 bgm.play();
 }
+float currentTime = 0;
 bool done = false;
+float shortestTime = 0;
+float longestTime = 0;
+ALLEGRO_TIMER* timer = NULL;
 float time = 2.0;
 int score = 0;
+al_starter_timer(timer);
 do {
 int dir = rand()%3-1;
 if (info[0] > 0) {
@@ -126,7 +132,19 @@ player.load(s.str());
 }
 player.set_pan(cpu.get_pan());
 play_sound_wait(&player);
+// Keep track of the fastest and slowest reaction times.
+currentTime = al_get_timer_count(timer);
+if (shortestTime > currentTime)
+{
+shortestTime = currentTime;
+}
+if (longestTime < currentTime)
+{
+longestTime = currentTime;
+}
 score++;
+// Reset the timer
+al_timer_reset();
 if (score%15 == 0) {
 if (info[4] > 0) {
 s.str("");
@@ -146,7 +164,18 @@ lose.load(s.str());
 play_sound_wait(&lose);
 screen_reader sr;
 s.str("");
-s << "Sorry, You lose! Your score was " << score << "!";
+s << "You lose! Your score was " << score << "! Your fastest reaction time was";
+bragScore << "In #2MB #bashIt I scored " << score << "! My fastest reaction time was";
+s << fastestTime << ((fastestTime == 1)?" second!":" seconds!");
+bragScore << fastestTime << ((fastestTime == 1)?" second!":" seconds!");
+s << "Your slowest reaction time was";
+bragScore << "My slowest reaction time was";
+s << slowestTime << ((slowestTime == 1)?" second!":" seconds!");
+bragScore << slowestTime << ((slowestTime == 1)?" second!":" seconds!");
+s << "Your average reaction time was"
+bragScore << "My average reaction time was"
+s << shortestTime + longestTime / score << ((shortestTime + longestTime / score == 1)?" second!":" seconds!");
+bragScore << shortestTime + longestTime / score << ((shortestTime + longestTime / score == 1)?" second!":" seconds!");
 sr.speak_any(s.str());
 done = true;
 }
