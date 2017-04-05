@@ -5,7 +5,7 @@ using std::vector;
 
 void play(string pack) {
 float currentTime = 0;
-float shortestTime = 0;
+float shortestTime = 1000;
 float longestTime = 0;
 float totalTime = 0;
 ALLEGRO_TIMER* timer = NULL;
