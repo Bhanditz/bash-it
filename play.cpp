@@ -170,21 +170,67 @@ s << sounddir << "lose" << rand()%info[2] << ".opus";
 lose.load(s.str());
 }
 play_sound_wait(&lose);
+vector<string> menu_vector;
 screen_reader sr;
 s.str("");
 s << "You lose! Your score was " << score << "! Your fastest reaction time was";
 bragScore << "In #2MB #bashIt I scored " << score << "! My fastest reaction time was";
 s << shortestTime << ((shortestTime == 1)?" second!":" seconds!");
 bragScore << shortestTime << ((shortestTime == 1)?" second!":" seconds!");
+menu_vector.push_back(s.str());
 s << "Your slowest reaction time was";
 bragScore << "My slowest reaction time was";
 s << longestTime << ((longestTime == 1)?" second!":" seconds!");
 bragScore << longestTime << ((longestTime == 1)?" second!":" seconds!");
+menu_vector.push_back(s.str());
 s << "Your average reaction time was";
 bragScore << "My average reaction time was";
 s << totalTime / score << ((totalTime / score == 1)?" second!":" seconds!");
 bragScore << totalTime / score << ((totalTime / score == 1)?" second!":" seconds!");
-sr.speak_any(s.str());
+menu_vector.push_back(s.str());
+menu_vector.push_back("Copy score to clipboard.");
+menu_vector.push_back("Back to main menu.");
+dynamic_menu* menu = create_menu(menu_vector, vector<string>());
+//sr.speak_any(s.str());
+sr.speak_any("Game over! Use your arrow keys to review the statistics of your game.");
+int ran = -1;
+do {
+if (ran == -1)
+{
+        ran = menu->run_extended("", "Game over! Use your arrow keys to review the statistics of your game.",   1, true);
+}
+else
+{
+    ran = menu->run_extended("", "", ran, false);
+}
+if (ran == (int)(menu_vector.size()-1))
+{
+/*if (disp)
+{
+    if (al_set_clipboard_text(disp, bragScore.str().c_str()))
+{
+sr.speak_any("Your score has been copied to the clipboard.");
+}
+else
+{
+log("Copying score to the clipboard failed!\n");
+sr.speak_any("Sorry, but the score could not be copied to the clipboard.");
+}
+}
+else
+{
+log("When copying scores to the clipboard, display was NULL!\n");
+sr.speak_any("Sorry, but the score could not be copied to the clipboard.");
+}*/
+}
+}
+while (ran != (int)(menu_vector.size()) && ran != 0 && ran != -1);
+delete vec;
+if(timer)
+{
+al_destroy_timer(timer);
+timer = NULL;
+}
 done = true;
 }
 if(score%2 == 0) {
