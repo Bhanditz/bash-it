@@ -172,8 +172,8 @@ s << "Your slowest reaction time was";
 bragScore << "My slowest reaction time was";
 s << slowestTime << ((slowestTime == 1)?" second!":" seconds!");
 bragScore << slowestTime << ((slowestTime == 1)?" second!":" seconds!");
-s << "Your average reaction time was"
-bragScore << "My average reaction time was"
+s << "Your average reaction time was";
+bragScore << "My average reaction time was";
 s << shortestTime + longestTime / score << ((shortestTime + longestTime / score == 1)?" second!":" seconds!");
 bragScore << shortestTime + longestTime / score << ((shortestTime + longestTime / score == 1)?" second!":" seconds!");
 sr.speak_any(s.str());
