@@ -7,6 +7,7 @@ void play(string pack) {
 float currentTime = 0;
 float shortestTime = 0;
 float longestTime = 0;
+float totalTime = 0;
 ALLEGRO_TIMER* timer = NULL;
 float time = 2.0;
 int score = 0;
@@ -135,9 +136,9 @@ s << sounddir << "player" << rand()%info[3] << ".opus";
 player.load(s.str());
 }
 player.set_pan(cpu.get_pan());
-play_sound_wait(&player);
 // Keep track of the fastest and slowest reaction times.
-currentTime = al_get_timer_count(timer);
+currentTime = al_get_timer_count(timer) * 0.005;
+totalTime = al_get_timer_count(timer) * 0.005 + currentTime;
 if (shortestTime > currentTime)
 {
 shortestTime = currentTime;
@@ -147,6 +148,7 @@ if (longestTime < currentTime)
 longestTime = currentTime;
 }
 score++;
+play_sound_wait(&player);
 // Reset the timer
 al_set_timer_count(timer, 0);
 if (score%15 == 0) {
@@ -156,6 +158,8 @@ s << sounddir << "reward" << rand()%info[4] << ".opus";
 reward.load(s.str());
 }
 play_sound_wait(&reward);
+// Reset the timer
+al_set_timer_count(timer, 0);
 }
 }
 else {
@@ -178,8 +182,8 @@ s << shortestTime << ((shortestTime == 1)?" second!":" seconds!");
 bragScore << shortestTime << ((shortestTime == 1)?" second!":" seconds!");
 s << "Your average reaction time was";
 bragScore << "My average reaction time was";
-s << shortestTime + longestTime / score << ((shortestTime + longestTime / score == 1)?" second!":" seconds!");
-bragScore << shortestTime + longestTime / score << ((shortestTime + longestTime / score == 1)?" second!":" seconds!");
+s << totalTime / score << ((totalTime / score == 1)?" second!":" seconds!");
+bragScore << totalTime / score << ((totalTime / score == 1)?" second!":" seconds!");
 sr.speak_any(s.str());
 done = true;
 }
