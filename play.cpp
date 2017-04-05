@@ -3,7 +3,7 @@ using std::stringstream;
 using std::string;
 using std::vector;
 
-void play(string pack) {
+void play(string pack, ALLEGRO_DISPLAY* disp) {
 float currentTime = 0;
 float shortestTime = 1000;
 float longestTime = 0;
@@ -100,6 +100,8 @@ timer = al_create_timer(0.005);
 al_start_timer(timer);
 }
 do {
+// Reset the timer
+al_set_timer_count(timer, 0);
 int dir = rand()%3-1;
 if (info[0] > 0) {
 s.str("");
@@ -138,7 +140,7 @@ player.load(s.str());
 player.set_pan(cpu.get_pan());
 // Keep track of the fastest and slowest reaction times.
 currentTime = al_get_timer_count(timer) * 0.005;
-totalTime = al_get_timer_count(timer) * 0.005 + currentTime;
+totalTime = totalTime+currentTime;
 if (shortestTime > currentTime)
 {
 shortestTime = currentTime;
@@ -149,17 +151,15 @@ longestTime = currentTime;
 }
 score++;
 play_sound_wait(&player);
-// Reset the timer
-al_set_timer_count(timer, 0);
 if (score%15 == 0) {
 if (info[4] > 0) {
 s.str("");
 s << sounddir << "reward" << rand()%info[4] << ".opus";
 reward.load(s.str());
-}
+bgm.pause();
 play_sound_wait(&reward);
-// Reset the timer
-al_set_timer_count(timer, 0);
+bgm.play();
+}
 }
 }
 else {
@@ -168,36 +168,35 @@ if(info[2] > 0) {
 s.str("");
 s << sounddir << "lose" << rand()%info[2] << ".opus";
 lose.load(s.str());
-}
 play_sound_wait(&lose);
+}
 vector<string> menu_vector;
 screen_reader sr;
 s.str("");
 s << "Your score was " << score << "!";
 menu_vector.push_back(s.str());
 s.str("");
-s << "Your fastest reaction time was";
-bragScore << "In #2MB #bashIt I scored " << score << "! My fastest reaction time was";
+s << "Your fastest reaction time was ";
+bragScore << "In #2MB #bashIt I scored " << score << "! My fastest reaction time was ";
 s << shortestTime << ((shortestTime == 1)?" second!":" seconds!");
-bragScore << shortestTime << ((shortestTime == 1)?" second!":" seconds!");
+bragScore << shortestTime << ((shortestTime == 1)?" second! ":" seconds! ");
 menu_vector.push_back(s.str());
 s.str("");
-s << "Your slowest reaction time was";
-bragScore << "My slowest reaction time was";
+s << "Your slowest reaction time was ";
+bragScore << "My slowest reaction time was ";
 s << longestTime << ((longestTime == 1)?" second!":" seconds!");
-bragScore << longestTime << ((longestTime == 1)?" second!":" seconds!");
+bragScore << longestTime << ((longestTime == 1)?" second! ":" seconds! ");
 menu_vector.push_back(s.str());
 s.str("");
-s << "Your average reaction time was";
-bragScore << "My average reaction time was";
+s << "Your average reaction time was ";
+bragScore << "My average reaction time was ";
 s << totalTime / score << ((totalTime / score == 1)?" second!":" seconds!");
-bragScore << totalTime / score << ((totalTime / score == 1)?" second!":" seconds!");
+bragScore << totalTime / score << ((totalTime / score == 1)?" second! ":" seconds! ");
+bragScore << "https://2mb.co/bi";
 menu_vector.push_back(s.str());
 menu_vector.push_back("Copy score to clipboard.");
 menu_vector.push_back("Back to main menu.");
 dynamic_menu* menu = create_menu(menu_vector, vector<string>());
-//sr.speak_any(s.str());
-sr.speak_any("Game over! Use your arrow keys to review the statistics of your game.");
 int ran = -1;
 do {
 if (ran == -1)
@@ -210,7 +209,7 @@ else
 }
 if (ran == (int)(menu_vector.size()-1))
 {
-/*if (disp)
+if (disp)
 {
     if (al_set_clipboard_text(disp, bragScore.str().c_str()))
 {
@@ -226,11 +225,13 @@ else
 {
 log("When copying scores to the clipboard, display was NULL!\n");
 sr.speak_any("Sorry, but the score could not be copied to the clipboard.");
-}*/
+}
 }
 }
 while (ran != (int)(menu_vector.size()) && ran != 0 && ran != -1);
-delete vec;
+if (menu) {
+delete menu;
+}
 if(timer)
 {
 al_destroy_timer(timer);
