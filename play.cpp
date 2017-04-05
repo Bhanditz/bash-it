@@ -148,7 +148,7 @@ longestTime = currentTime;
 }
 score++;
 // Reset the timer
-al_timer_reset();
+al_set_timer_count(timer, 0);
 if (score%15 == 0) {
 if (info[4] > 0) {
 s.str("");
@@ -170,12 +170,12 @@ screen_reader sr;
 s.str("");
 s << "You lose! Your score was " << score << "! Your fastest reaction time was";
 bragScore << "In #2MB #bashIt I scored " << score << "! My fastest reaction time was";
-s << fastestTime << ((fastestTime == 1)?" second!":" seconds!");
-bragScore << fastestTime << ((fastestTime == 1)?" second!":" seconds!");
+s << shortestTime << ((shortestTime == 1)?" second!":" seconds!");
+bragScore << shortestTime << ((shortestTime == 1)?" second!":" seconds!");
 s << "Your slowest reaction time was";
 bragScore << "My slowest reaction time was";
-s << slowestTime << ((slowestTime == 1)?" second!":" seconds!");
-bragScore << slowestTime << ((slowestTime == 1)?" second!":" seconds!");
+s << shortestTime << ((shortestTime == 1)?" second!":" seconds!");
+bragScore << shortestTime << ((shortestTime == 1)?" second!":" seconds!");
 s << "Your average reaction time was";
 bragScore << "My average reaction time was";
 s << shortestTime + longestTime / score << ((shortestTime + longestTime / score == 1)?" second!":" seconds!");
