@@ -3,6 +3,22 @@ using std::stringstream;
 using std::string;
 using std::vector;
 
+float currentTime = 0;
+float shortestTime = 0;
+float longestTime = 0;
+ALLEGRO_TIMER* timer = NULL;
+float time = 2.0;
+int score = 0;
+
+void reset_variables()
+{
+currentTime = 0;
+shortestTime = 0;
+longestTime = 0;
+time = 2.0;
+score = 0;
+}
+
 void play(string pack) {
 string sounddir = (string)("sounds/")+pack+"/";
 vector<string>* vec = get_dir_children(sounddir, 1);
@@ -86,14 +102,12 @@ bgm.load(s.str());
 bgm.set_loop(true);
 bgm.play();
 }
-float currentTime = 0;
 bool done = false;
-float shortestTime = 0;
-float longestTime = 0;
-ALLEGRO_TIMER* timer = NULL;
-float time = 2.0;
-int score = 0;
-al_starter_timer(timer);
+if (!timer)
+{
+timer = al_create_timer(0.005);
+al_start_timer(timer);
+}
 do {
 int dir = rand()%3-1;
 if (info[0] > 0) {
@@ -186,5 +200,6 @@ time = 0.25;
 }
 }
 } while(!done);
+reset_variables();
 }
 
