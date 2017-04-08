@@ -1,12 +1,6 @@
-#include <misc.h>
-#include <menu_helper.h>
-#include <string>
-#include <vector>
-#include <allegro5/allegro.h>
+#include <include.h>
 using std::string;
 using std::vector;
-#include <iostream>
-#include <fstream>
 using std::ifstream;
 
 void play(string pack, ALLEGRO_DISPLAY* disp);
