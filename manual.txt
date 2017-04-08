@@ -1,0 +1,11 @@
+Welcome to Bash It, a fast paced game of reaction!
+In menus, press the up and down arrow keys to move through the menu.
+Press enter to select the currently focused item.
+Press escape to return to the previous menu, or from the main menu, to exit the game.
+To play, select play from the game menu, then choose a soundpack.
+When you hear a sound in the left speaker, press the left arrow.
+When you hear a sound in the right speaker, press the right arrow.
+If you hear the sound equally in both speakers, press either the down or up arrow.
+soundpacks may optionally include a reward sound sequence for every 15 successful hits.
+When the reward sequence happens, the background music will stop, and begin again after the sequence is finished.
+To add a new soundpack, simply place the sound folder in the sounds directory. The game will pick it up automatically.
