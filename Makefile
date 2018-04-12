@@ -17,7 +17,7 @@ LDFLAGS	= -lallegro_audio -lallegro_acodec -lallegro -lallegro_font -lspeechd
 
 #formatting specific flags
 FORMATTER = astyle
-FORMAT_FLAGS = --style=gnu
+FORMAT_FLAGS = --style=gnu -Q
 
 	#source files to compile:
 # game-kit files, only update if game-kit has been updated.
@@ -77,9 +77,7 @@ clean:
 format:
 	@$(ECHO) Formatting
 	@$(FORMATTER) $(FORMAT_FLAGS) $(S_FILES)
-#	@$(FORMATTER) $(FORMAT_FLAGS) *.h
-#	@$(FORMATTER) $(FORMAT_FLAGS) *.hpp
-	@$(RM) -f *.orig
+	@find . -name "*.orig" -exec rm -rf {} \;
 	@$(ECHO) Done.
 
 ifeq ($(HASDEMO),true)
