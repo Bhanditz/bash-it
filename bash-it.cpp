@@ -12,7 +12,7 @@ using std::ifstream;
 void play(string pack, ALLEGRO_DISPLAY* disp);
 
 
-int main()
+int main(int argc, char **argv)
 {
 ALLEGRO_DISPLAY* disp = game_window("Bash It!");
 if (disp) {

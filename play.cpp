@@ -18,7 +18,7 @@ if (vec) {
 for (int x = 0; x < 6; x++) {
 info[x] = 0;
 }
-for (int x = 0; x < vec->size(); x++) {
+for (unsigned int x = 0; x < vec->size(); x++) {
 if ((*vec)[x].find("intro") != string::npos) {
 info[1]++;
 }
