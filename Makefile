@@ -64,6 +64,9 @@ all: $(O_FILES)
 
 ifeq ($(HASDEMO),true)
 $(patsubst %.cpp,%.o,$(DEMO_H_FILES)): demo.h
+
+demo.h:
+	@if [ ! -f demo.h ];then $(ECHO) "Demo.h does not exist, setting to default demo contents."; $(ECHO) "$(DEMODEFINE)" > demo.h;fi
 endif
 
 clean:
